@@ -7,7 +7,12 @@
       "height": 4.1
     },
     {
-      "height": 2.8
+      "height": 2.8,
+      "subRows": [
+        {
+          "height": 1
+        }
+      ]
     },
     {
       "height": 8.4
