@@ -1,0 +1,25 @@
+{
+  "startX": 7.5,
+  "startY": 8.2,
+  "width": 86,
+  "rows": [
+    {
+      "height": 4.1
+    },
+    {
+      "height": 2.8
+    },
+    {
+      "height": 8.4
+    },
+    {
+      "height": 11.3
+    },
+    {
+      "height": 17
+    },
+    {
+      "height": 32.2
+    }
+  ]
+}
