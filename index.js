@@ -3,7 +3,9 @@ const fs = require('fs')
 const path = require('path');
 
 /** demo 数据 */
-const demoData = require('./demo/data.json')
+const demo = require('./demo/data.json')
+const USE_DEMO_DATA = true
+const demoData = USE_DEMO_DATA ? demo : {}
 
 
 /** PDF 页面A4纸打印宽高 */
@@ -98,7 +100,7 @@ formData.pages.forEach((page, index) => {
       row.fields.forEach(field => {
         // drawRect({ offsetX: field.startX, offsetY: lastOffsetY, rowHeight: row.height, column: field.column, color: 'blue', page }) //更新表格定位用代码
         /** 插入数据 */
-        if (field.dataIndex) {
+        if (field.dataIndex && demoData[field.dataIndex]) {
           const fieldData = demoData[field.dataIndex]
           const position = getCenteredPostion({ offsetX: field.startX, offsetY: lastOffsetY, rowHeight: row.height, column: field.column, page, text: fieldData })
           setText({
