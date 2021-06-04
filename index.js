@@ -31,9 +31,18 @@ const getPercentX = x => x * 100 / A4_WIDTH
 const getPercentY = y => y * 100 / A4_HEIGHT
 
 /** 数据插入辅助方法 */
-const setText = ({ text, positionX, positionY, color, size = TEXT_SIZE }) => doc
-  .fillColor(color)
-  .text(text, getX(positionX), getY(positionY));
+const setText = ({ text, positionX, positionY, color, needWrap = false, containerWidth, containerY }) => {
+  if (needWrap) {
+    doc
+      .fillColor(color)
+      .text(text, getX(positionX), getY(containerY), { width: getX(containerWidth) });
+  } else {
+    doc
+      .fillColor(color)
+      .text(text, getX(positionX), getY(positionY));
+  }
+
+}
 
 const setCheckBox = ({ text, positionX, positionY, gap = 2, boxSize = 10, color, size = TEXT_SIZE }) => {
   doc
@@ -62,9 +71,16 @@ const getCenteredPostion = ({ offsetX = 0, offsetY = 0, column = DOC_MAX_COLUMNS
   const containerHeight = rowHeight
   const textWidth = getPercentX(doc.widthOfString(text))
   const textHeight = getPercentY(doc.heightOfString(text))
+  let needWrap = false
+  if (textWidth > containerWidth) {
+    needWrap = true
+  }
   return {
     positionX: containerX + 0.2,
     positionY: containerY + containerHeight / 2 - textHeight / 2,
+    needWrap,
+    containerWidth,
+    containerY
   }
 
 }
