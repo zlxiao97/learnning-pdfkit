@@ -1,4 +1,11 @@
 {
+  "contractCode": "WYB420Z20210106032036",
+  "signingTime": "2021-6-5",
+  "extensionPeriod": [12,30000,180000],
+  "deductible": [500,"20%"],
+  "saleStore": "某某门店",
+  "contactAddr": "武汉经济技术开发区汉阳客运中心贰号场地XXXX号商铺",
+  "serviceLine": "系统维护",
   "name": "熊巍",
   "customerType": "自然人",
   "certificateType": "身份证",

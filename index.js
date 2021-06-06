@@ -13,6 +13,8 @@ const config = require('./data/config')
 /** 表格数据 */
 const formData = require('./data/form.json')
 
+/** 其他字段数据 */
+const textData = require('./data/text')
 
 /** 工具类 */
 const utils = require('./utils')
@@ -49,17 +51,17 @@ const { setText, setCheckBox, drawRect, getCenteredPostion } = utils;
 
     const drawRow = (lastOffsetY, row) => {
       /** 绘制边框，预览表格定位用代码 */
-      // drawRect({ offsetX: 0, offsetY: lastOffsetY, rowHeight: row.height, page })
+      // drawRect(doc, { offsetX: 0, offsetY: lastOffsetY, rowHeight: row.height, page })
       const drawFiled = field => {
         /** 绘制边框，预览表格定位用代码 */
-        // drawRect({ offsetX: field.startX, offsetY: lastOffsetY, rowHeight: row.height, column: field.column, color: 'blue', page })
+        // drawRect(doc, { offsetX: field.startX, offsetY: lastOffsetY, rowHeight: row.height, column: field.column, color: 'blue', page })
         /** 插入数据 */
         if (field.dataIndex && demoData[field.dataIndex]) {
           const fieldData = demoData[field.dataIndex]
           const position = getCenteredPostion(doc, { offsetX: field.startX, offsetY: lastOffsetY, rowHeight: row.height, column: field.column, page, text: fieldData })
           setText(doc, {
             text: fieldData,
-            color: config.TEXT_BLACK_COLOR,
+            color: config.TEXT_BLUE_COLOR,
             ...position
           })
         }
@@ -69,10 +71,29 @@ const { setText, setCheckBox, drawRect, getCenteredPostion } = utils;
       }
       return lastOffsetY + row.height
     }
-    const drawPage = (page) => page.rows.reduce(drawRow, 0)
+    const drawForm = (page) => page.rows.reduce(drawRow, 0)
     /** 绘制表格 */
-    drawPage(page)
+    drawForm(page)
+    /** 个别字段单独绘制 */
+    const curPageText = textData[index]
+    if (curPageText && curPageText.texts) {
+      const texts = curPageText.texts
+      texts.forEach(text => {
+        let fieldData = demoData[text.dataIndex]
+        if (text.formatter) {
+          fieldData = text.formatter(fieldData)
+        }
+        setText(doc, {
+          text: fieldData,
+          color: config.TEXT_BLUE_COLOR,
+          positionX: text.positionX,
+          positionY: text.positionY,
+        })
+      })
+    }
   })
+
+
 
   doc.end();
 
